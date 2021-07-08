@@ -59,7 +59,6 @@ class Board():
         startingRow = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         random.shuffle(startingRow)
 
-        #Push the row to create a whole grid
         for i in range(3):
             for j in range(3):
                 startingRow = pushList(startingRow, 3)
@@ -121,8 +120,7 @@ class Board():
 
             self.finGrid[change1][change2] = 0
             self.grid = copyBoard(self.finGrid)
-            
-            #Ensure only one solution
+
             while self.backTrack() != 1:
                 self.finGrid[change1][change2] = saveNum
 
@@ -135,8 +133,6 @@ class Board():
                 self.finGrid[change1][change2] = 0
                 self.grid = copyBoard(self.finGrid)
 
-
-        self.backTrack()
         self.grid = copyBoard(self.finGrid)
 
     def backTrack(self, row=0, col=0, count=0):
@@ -182,6 +178,11 @@ class Board():
     def __repr__(self):
         r = ''
         for row in self.grid:
+            for tile in row:
+                r += str(tile) + ' '
+            r += '\n'
+        r += '\n'
+        for row in self.solution:
             for tile in row:
                 r += str(tile) + ' '
             r += '\n'
@@ -242,24 +243,26 @@ class GUIelements():
 
         rect = pg.Rect(1, 1, 140, 40)
         rect.center = 700, 50
-        self.buttons += [Button(rect, 'New Puzzle', WHITE, reset, BGcolor=GREEN)]
+        self.buttons += [Button(rect, 'New Puzzle', WHITE, reset, BGcolor=LIGHTBLUE)]
+
+        colors = [GREEN, YELLOW, RED]
 
         for i, d in enumerate(difficulties):
             rect = pg.Rect(1, 1, 140, 40)
             rect.center = 700, 150+50*i
-            self.buttons += [Button(rect, d, WHITE, setDifficulty, params=[d], BGcolor=RED)]
+            self.buttons += [Button(rect, d, WHITE, setDifficulty, params=[d], BGcolor=colors[i])]
 
         rect = pg.Rect(1, 1, 222, 40)
         rect.center = 724, 578
-        self.buttons += [Button(rect, 'Show Solution', WHITE, showSol, BGcolor=GREEN)]
+        self.buttons += [Button(rect, 'Show Solution', WHITE, showSol, BGcolor=ORANGE)]
 
 
     def draw(self):
         for i, d in enumerate(difficulties):
             if d == difficulty:
                 rect = pg.Rect(1, 1, 140, 40)
-                rect.center = 698, 148+50*i
-                pg.draw.rect(wSurface, GOLD, rect)
+                rect.center = 697, 147+50*i
+                pg.draw.rect(wSurface, WHITE, rect)
 
         [button.draw() for button in self.buttons]
 
@@ -306,6 +309,10 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GOLD = (255, 215, 0)
+YELLOW = (255, 255, 0)
+LIGHTBLUE = (204, 204, 255)
+PINK = (255, 0, 127)
+ORANGE = (255, 165, 0)
 
 WINDOWIDTH = 860
 WINDOWHEIGHT = 608
@@ -361,9 +368,6 @@ def main():
         pg.display.update()
 
 
-
-
 if __name__ == '__main__':
     main()
     pg.quit()
-
