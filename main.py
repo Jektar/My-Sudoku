@@ -1,7 +1,6 @@
-import sys, copy, random
+import random
 import pygame as pg
 from pygame.locals import *
-from tqdm import tqdm
 
 difficulty = 'Hard'
 
@@ -60,6 +59,7 @@ class Board():
         startingRow = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         random.shuffle(startingRow)
 
+        #Push the row to create a whole grid
         for i in range(3):
             for j in range(3):
                 startingRow = pushList(startingRow, 3)
@@ -79,7 +79,6 @@ class Board():
         r[replaceWith*3:replaceWith*3+3] = oldRows
 
         #Randomly flip the board
-        ##Combine the two?
         randVal = random.randint(1, 2)
         if randVal == 1:
             new = [[0 for i in range(9)] for j in range(9)]
@@ -122,7 +121,8 @@ class Board():
 
             self.finGrid[change1][change2] = 0
             self.grid = copyBoard(self.finGrid)
-
+            
+            #Ensure only one solution
             while self.backTrack() != 1:
                 self.finGrid[change1][change2] = saveNum
 
@@ -182,11 +182,6 @@ class Board():
     def __repr__(self):
         r = ''
         for row in self.grid:
-            for tile in row:
-                r += str(tile) + ' '
-            r += '\n'
-        r += '\n'
-        for row in self.solution:
             for tile in row:
                 r += str(tile) + ' '
             r += '\n'
