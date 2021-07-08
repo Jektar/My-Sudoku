@@ -181,11 +181,6 @@ class Board():
             for tile in row:
                 r += str(tile) + ' '
             r += '\n'
-        r += '\n'
-        for row in self.solution:
-            for tile in row:
-                r += str(tile) + ' '
-            r += '\n'
 
         return r
 
